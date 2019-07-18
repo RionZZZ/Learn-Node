@@ -1,0 +1,25 @@
+doctype
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
+        title jade main
+        style.
+            div {width:100px;height:200px;border: 1px solid #ddd;}
+            div.last {background: red}
+    body
+        -var a = 0;
+        while a < 13
+            if !(a%3) && a 
+                div.last #{a++}
+            else 
+                div=a++
+            
+
+
+
+
+
+
+
+
+

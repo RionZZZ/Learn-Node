@@ -1,0 +1,60 @@
+html
+    head
+        script
+            |window.onload=function(){
+            |    alert("onload");
+            |}
+        script.
+            window.onload=function(){
+                alert("onload");
+            }
+        script
+            include ../1.js
+    body
+        |abc
+        |fff
+        |666
+        div
+        div
+            input(type="text")
+            aaa
+        div
+        div
+        div name:#{name}
+        div
+        div
+        div(style=style1)
+        div(class=class1 class="somediv")
+        div
+        div
+        -var a = 12;
+        -var b = 4;
+        div result: #{a + b}
+        div
+        div=a
+        div
+        -for (let i = 0; i < arr.length; i++)
+            div=arr[i]
+        div
+        div=content
+        div!=content
+        div
+        div
+        -var c = 9;
+        if (c%2 == 0)
+            div(style={background:'red'}) 偶数
+        else
+            div(style={background:'green'}) 奇数
+        div
+        div
+        -var d = 3;
+        case d 
+            when 0
+                div 000
+            when 2
+                div 222
+            when 3
+                div 333
+            default
+                p null
+        div

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./ajax.js"></script>
+    <script>
+        window.onload = () => {
+            let userText = document.getElementById("user");
+            let pwdText = document.getElementById("pwd");
+            let registerBtn = document.getElementById("register");
+            let loginBtn = document.getElementById("login");
+
+            registerBtn.onclick = () => {
+                ajax({
+                    url: '/user',
+                    data: { act: 'reg', user: userText.value, pwd: pwdText.value },
+                    type: "get",
+                    success: (str) => {
+                        let json = eval(`(${str})`);
+                        if (json.ok) {
+                            alert(json.msg);
+                        } else {
+                            alert(`失败！${json.msg}`);
+                        }
+                    },
+                    error: () => {
+                        alert("error");
+                    }
+                })
+            }
+
+            loginBtn.onclick = () => {
+                ajax({
+                    url: '/user',
+                    data: { act: 'login', user: userText.value, pwd: pwdText.value },
+                    type: "get",
+                    success: (str) => {
+                        let json = eval(`(${str})`);
+                        if (json.ok) {
+                            alert(json.msg);
+                        } else {
+                            alert(`失败！${json.msg}`);
+                        }
+                    },
+                    error: () => {
+                        alert("error");
+                    }
+                })
+            }
+        }
+    </script>
+</head>
+
+<body>
+    USER: <input type="text" id="user"><br>
+    PWD: <input type="password" id="pwd"><br>
+    <input type="button" value="REGISTER" id="register">
+    <input type="button" value="LOGIN" id="login">
+</body>
+
+</html>
