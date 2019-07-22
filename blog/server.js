@@ -11,6 +11,8 @@ const multer = require("multer");
 // const ejs = require("ejs");
 const consolidate = require("consolidate");
 
+const common = require("./common");
+
 
 const server = express();
 
@@ -56,22 +58,70 @@ const db = mysql.createPool({
     password: "12333",
     database: "blog"
 });
-server.get('/', (req, res) => {
+server.get('/', (req, res, next) => {
     // const db = mysql.createConnection({
     //     host: "localhost",
     //     user: "root",
     //     password: "12333",
     //     database: "blog"
     // });
-    //查询
+
+    //查询banner
     db.query("SELECT * FROM `banner_table`", (err, data) => {
         if (err) {
-            res.status(500).send("db error").end();
+            res.status(500).send("banner_db error").end();
         } else {
-            res.render("index.ejs", { banners: data });
+            // res.render("index.ejs", { banners: data });
+            res.banners = data;
+            next();
         }
     });
 
+})
+
+server.get('/', (req, res, next) => {
+    db.query("SELECT `ID`, `title`, `summary` FROM `article_table`", (err, data) => {
+        if (err) {
+            res.status(500).send("article_db error").end();
+        } else {
+            // res.render("index.ejs", { banners: res.banners, articles: data });
+            res.articles = data;
+            next();
+        }
+    });
+});
+
+server.get('/', (req, res) => {
+    res.render("index.ejs", { banners: res.banners, articles: res.articles });
+});
+
+server.get('/article', (req, res) => {
+    if (req.query.id) {
+        if (req.query.act == "like") {
+            //增加一个赞
+            db.query(`UPDATE article_table SET n_like=n_like+1 WHERE ID=${req.query.id}`, (err, data) => {
+                if (err) {
+                    res.status(500).send("article_db error").end();
+                }
+            });
+        }
+        db.query(`SELECT * FROM article_table WHERE ID=${req.query.id}`, (err, data) => {
+            if (err) {
+                res.status(500).send("article_db error").end();
+            } else {
+                if (data.length == 0) {
+                    res.status(404).send("article not found").end();
+                } else {
+                    const article = data[0];
+                    article.timeout = common.time2Data(article.post_time);
+                    article.content = article.content.replace(/^/gm, '<p>').replace(/$/gm, '</p>');
+                    res.status(200).render("conText.ejs", { article: article });
+                }
+            }
+        });
+    } else {
+        res.status(404).send("article not found").end();
+    }
 })
 
 //static数据
