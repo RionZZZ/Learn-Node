@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>admin index</title>
+</head>
+
+<body>
+    <div class="page">
+        <% include components/head.ejs %>
+        <div class="content-wrap">
+            <div>
+                <form action="?" method="post">
+                    title: <input type="text" name="title" /><br />
+                    content: <textarea name="description"></textarea><br />
+                    href: <input type="text" name="href" /><br />
+                    <input type="submit" value="add" />
+                </form>
+            </div>
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>title</th>
+                        <th>description</th>
+                        <th>href</th>
+                        <th>handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% for(var i = 0; i < banner.length; i++){ %>
+                    <tr>
+                        <td><%= banner[i].ID %></td>
+                        <td><%= banner[i].title %></td>
+                        <td><%= banner[i].description %></td>
+                        <td><%= banner[i].href %></td>
+                        <td>
+                            <a href="?act=mod&id=<%= banner[i].ID %>">modify</a>
+                            <a href="?act=del&id=<%= banner[i].ID %>" onclick="return confirm('delete?')">delete</a>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+            <% if (typeof modData != 'undefined'){ %>
+                <div>
+                    <p>修改用的</p>
+                    <form action="?" method="post">
+                        <input type="hidden" name="id" value="<%= modData.ID %>" />
+                        title: <input type="text" name="title" value="<%= modData.title %>" /><br />
+                        content: <textarea name="description"><%= modData.description %></textarea><br />
+                        href: <input type="text" name="href" value="<%= modData.href %>" /><br />
+                        <input type="submit" value="modify" />
+                        <a  href="/admin/banner">取消修改</a>
+                    </form>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+
+</html>
