@@ -16,7 +16,7 @@ module.exports = () => {
 
         switch (req.query.act) {
             case "mod":
-                db.query(`SELECT * FROm banner_table WHERE ID=${req.query.id}`, (err, data) => {
+                db.query(`SELECT * FROM banner_table WHERE ID=${req.query.id}`, (err, data) => {
                     if (err) {
                         console.error(err);
                         res.status(500).send("database error").end();
