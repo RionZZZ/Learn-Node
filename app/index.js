@@ -40,7 +40,7 @@ server.set("view engine", "html");
 
 //route
 server.use('/', require('./route/web')());
-server.use('/admin', require('./route/admin/index')());
+server.use('/admin', require('./route/admin')());
 
 
 

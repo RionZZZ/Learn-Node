@@ -1,6 +1,5 @@
 const express = require("express");
 const mysql = require("mysql");
-const common = require("../../libs/common");
 const pathLib = require("path");
 const fs = require("fs");
 
